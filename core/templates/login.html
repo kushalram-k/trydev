@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0; /* Light gray background color */
+    }
+
+    .container {
+      width: 40%;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+    h2 {
+      color: #333333;
+    }
+
+    h3 {
+      color: #666666;
+    }
+
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('path_to_your_image.jpg'); /* Replace with the path to your background image */
+      background-size: cover;
+      background-position: center;
+      filter: blur(5px);
+      z-index: -1;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .otp-input {
+      display: none;
+    }
+  </style>
+  <script>
+    function showLogin() {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('otp-input').style.display = 'none';
+    }
+
+    function showRegister() {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+      document.getElementById('otp-input').style.display = 'none';
+    }
+
+    function showOTPInput() {
+      document.getElementById('otp-input').style.display = 'block';
+    }
+  </script>
+</head>
+<body>
+  <div class="background-image"></div>
+
+  <div class="container">
+    <h2>Login and Register Form</h2>
+    <button onclick="showLogin()">Login</button>
+    <button onclick="showRegister()">Register</button>
+
+    <div id="login-form">
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+          <input type="submit" name="password" value="Login with Password" class="btn" onclick="showLogin()">
+          <input type="button" name="otp" value="Login with OTP via Email" class="btn" onclick="showOTPInput()">
+        </div>
+        <div id="otp-input" class="form-group otp-input">
+          <label for="otp">OTP:</label>
+          <input type="text" id="otp" name="otp">
+        </div>
+        {% if error %}
+          <p class="error-message">{{ error }}</p>
+        {% endif %}
+      </form>
+    </div>
+
+    <div id="register-form" style="display: none;">
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+          <input type="submit" value="Register" class="btn">
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
